@@ -39,5 +39,5 @@ vignettes/*.pdf
 *.knit.md
 
 # Key files
-key.R
+key
 >>>>>>> cf4f165d0896f1e412615d1427378add1ea07b95
