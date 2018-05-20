@@ -4,15 +4,13 @@
 customers <-
   data.frame(
     name = randomNames(50000, name.order = "first.last", name.sep = " "),
-    gender = NA,
-    ethnicity = NA,
     postal = NA,
     email = NA
   )
 
 # Separate into first and last names
 customers <-
-  customers %>% extract(
+  customers %>% tidyr::extract(
     name,
     c("first.name", "last.name"),
     regex = "([^ ]+) (.*)"
@@ -209,11 +207,34 @@ long <-
 latlong <- paste(lat,long, sep=","); rm(lat,long)
 
 
-
 # Append data to customers dataset ----------------------------------------
 
 # Append emails to customers dataset
 customers$email <- generateEmail(n)
+
+# Guess gender
+
+temp <- gender(customers$first.name) %>% unique() %>% select(name,gender)
+
+customers <- customers %>% left_join(temp,by=c("first.name"="name"))
+
+# Guess ethnicity
+
+ethn.temp <- predict_race(voter.file = tibble(surname=customers$last.name), surname.only = T)
+ethn.temp %<>% gather(race, value, 2:6)
+ethn.temp %<>% group_by(surname) %>% arrange(desc(value)) %>% top_n(1, value)
+
+ethn.temp$race %<>% recode(
+  "pred.whi" = "white",
+  "pred.oth" = "other",
+  "pred.his" = "hispanic",
+  "pred.bla" = "black",
+  "pred.asi" = "asian"
+)
+
+customers <- customers %>% 
+  left_join(ethn.temp[,-3], by=c("last.name"="surname")) %>% 
+  distinct()
 
 
 
