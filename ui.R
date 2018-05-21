@@ -5,12 +5,24 @@ header <- dashboardHeader(
 
 sidebar <- dashboardSidebar(
   width = "300px",
-  numericInput("n_data", "Number of customers to simulate", 5000, min=1000,max=50000,step=1000),
+  numericInput("n_data", "Number of customers to simulate", 1500, min=100,max=3000,step=100),
   actionButton("generate_n_data", "Simulate", icon = icon("play",lib="font-awesome"))
 )
 
 body <- dashboardBody(
   google_mapOutput("map"),
+  tabBox(
+    id="maintab",
+    tabPanel(
+      "Map",
+      google_mapOutput("map")
+    ),
+    tabPanel(
+      "Campaign",
+      
+    )
+  ),
+  
   tags$head(
     tags$style(
       HTML(

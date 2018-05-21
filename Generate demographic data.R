@@ -3,8 +3,7 @@
 # Generate names
 customers <-
   data.frame(
-    name = randomNames(50000, name.order = "first.last", name.sep = " "),
-    postal = NA,
+    name = randomNames(5000, name.order = "first.last", name.sep = " "),
     email = NA
   )
 
@@ -188,7 +187,7 @@ generateEmail <- function(n) {
 # Generate postal codes from latlongs -------------------------------------
 lat <-
   rtnorm(
-    50000,
+    n,
     lower = 43.630060,
     upper = 43.761095,
     mean = 43.648917,
@@ -197,14 +196,14 @@ lat <-
 
 long <- 
   rtnorm(
-    50000,
+    n,
     lower = -79.453596,
     upper = -79.305476,
     mean = -79.387681,
     sd = (79.453596-79.305476)/3
   ) %>% round(6)
 
-latlong <- paste(lat,long, sep=","); rm(lat,long)
+latlong <- paste(lat,long, sep=",")
 
 
 # Append data to customers dataset ----------------------------------------
@@ -234,7 +233,57 @@ ethn.temp$race %<>% recode(
 
 customers <- customers %>% 
   left_join(ethn.temp[,-3], by=c("last.name"="surname")) %>% 
-  distinct()
+  distinct() %>% head(n=5000)
 
+customers <- customers[1:5000,]
 
+# Reverse geocode
 
+url.vector <- paste0("https://maps.googleapis.com/maps/api/geocode/json?latlng=",
+                    lat,
+                    ",",
+                    long,
+                    "&key=",
+                    key)
+
+chunk_size <- 100
+
+parsed_url_geocode <- list()
+
+# Reverse geocode in chunks
+# for (i in 1:ceiling(length(url.vector) / chunk_size)) {
+#   parsed_url_geocode[[i]] <-
+#     getURLAsynchronous(url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)])
+#   Sys.sleep(.2)
+# }
+
+z=1
+
+for (i in 1:length(parsed_url_geocode)) {
+  for (j in 1:length(parsed_url_geocode[[i]])) {
+    cleaned_df[z] <- jsonlite::fromJSON(parsed_url_geocode[[i]][j])
+    z = z + 1
+  }
+}
+
+final.df <- data.frame(NA)
+
+bad_calls <- which(cleaned_df=="You have exceeded your rate-limit for this API.")
+
+good_calls <- 1:5000
+
+good_calls <- good_calls[-bad_calls]
+
+final.df <- rep(NA,5000)
+
+for (i in good_calls) {
+  final.df[i] <-
+    cleaned_df[[i]]$address_components[[1]][cleaned_df[[1]]$address_components[[1]]$types ==
+                                              "postal_code", ]$long_name
+}
+
+latlong.postal <- data.frame(latlong = latlong, postal_code <- final.df)
+
+customers <- customers %>% bind_cols(latlong.postal)
+
+customers %<>% na.omit
