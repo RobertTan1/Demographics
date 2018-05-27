@@ -246,16 +246,16 @@ url.vector <- paste0("https://maps.googleapis.com/maps/api/geocode/json?latlng="
                     "&key=",
                     key)
 
-chunk_size <- 100
+chunk_size <- 50
 
 parsed_url_geocode <- list()
 
 # Reverse geocode in chunks
-# for (i in 1:ceiling(length(url.vector) / chunk_size)) {
-#   parsed_url_geocode[[i]] <-
-#     getURLAsynchronous(url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)])
-#   Sys.sleep(.2)
-# }
+for (i in 1:ceiling(length(url.vector) / chunk_size)) {
+  parsed_url_geocode[[i]] <-
+    getURLAsynchronous(url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)])
+  Sys.sleep(.1)
+}
 
 z=1
 
