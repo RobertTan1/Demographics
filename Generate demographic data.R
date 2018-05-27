@@ -254,7 +254,7 @@ parsed_url_geocode <- list()
 for (i in 1:ceiling(length(url.vector) / chunk_size)) {
   parsed_url_geocode[[i]] <-
     getURLAsynchronous(url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)])
-  Sys.sleep(.1)
+  Sys.sleep(5)
 }
 
 z=1

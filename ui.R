@@ -1,46 +1,58 @@
-header <- dashboardHeader(
-  title = "Big Bucks Coffee - Marketing",
-  titleWidth = "300px"
-)
+header <- dashboardHeader(title = "Big Bucks Coffee - Marketing",
+                          titleWidth = "300px")
 
 sidebar <- dashboardSidebar(
   width = "300px",
   sidebarMenu(
-    menuItem(tabName = "mapview", text = "Map View", icon = icon("globe", lib="font-awesome")),
-    menuItem(tabName = "emailview", text = "Email Campaign", icon = icon("bolt", lib="font-awesome"))
-  ),
-  numericInput("n_data", "Number of customers to simulate", 1500, min=100,max=3000,step=100),
-  actionButton("generate_n_data", "Simulate", icon = icon("play",lib="font-awesome"))
-)
-
-body <- dashboardBody(
-  google_mapOutput("map"),
-  tabItems(
-    tabItem(
-      "mapview",
-      google_mapOutput("map")
+    menuItem(
+      tabName = "mapview",
+      text = "Map View",
+      icon = icon("globe", lib = "font-awesome")
     ),
-    tabItem(
-      "emailview",
-      h2("Email campaign markdown here")
+    menuItem(
+      tabName = "emailview",
+      text = "Email Campaign",
+      icon = icon("bolt", lib = "font-awesome")
     )
   ),
-  
-  tags$head(
-    tags$style(
-      HTML(
-        "
-          #generate_n_data {
-            float: right;
-            margin-right: 15px;
-          }
-          
-        "
-      )
-    )
+  numericInput(
+    "n_data",
+    "Number of customers to simulate",
+    1500,
+    min = 100,
+    max = 3000,
+    step = 100
+  ),
+  actionButton(
+    "generate_n_data",
+    "Simulate",
+    icon = icon("play", lib = "font-awesome")
+  )
+  actionButton(
+    "updateData",
+    "Update data",
+    icon = icon("globe", lib = "font-awesome")
   )
 )
 
-ui <- dashboardPage(header,sidebar,body)
+body <- dashboardBody(google_mapOutput("map"),
+                      tabItems(
+                        tabItem("mapview",
+                                google_mapOutput("map")),
+                        tabItem("emailview",
+                                h2("Email campaign markdown here"))
+                      ),
+                      
+                      tags$head(tags$style(
+                        HTML("
+                             #generate_n_data {
+                             float: right;
+                             margin-right: 15px;
+                             }
+                             
+                             ")
+                        )))
+
+ui <- dashboardPage(header, sidebar, body)
 
 shinyApp(ui, server)
