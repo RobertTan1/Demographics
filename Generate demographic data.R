@@ -250,29 +250,35 @@ chunk_size <- 50
 
 parsed_url_geocode <- list()
 
-# Reverse geocode in chunks
-for (i in 1:ceiling(length(url.vector) / chunk_size)) {
-  parsed_url_geocode[[i]] <-
-    getURLAsynchronous(url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)])
-  Sys.sleep(5)
+cb <- function(req){
+  parsed_url_geocode <<- append(parsed_url_geocode, list(rawToChar(req$content) %>% fromJSON()))
 }
 
-z=1
+# Reverse geocode in chunks
+
+for (i in 1:10) { #ceiling(length(url.vector) / chunk_size)
+
+  pool <- new_pool()
+  
+  # vector of uris to loop through
+  uris <- url.vector[(i + (i - 1) * (chunk_size - 1)):(i * chunk_size)]
+  
+  # all scheduled requests are performed concurrently
+  sapply(uris, curl_fetch_multi, done=cb, pool=pool)
+  
+  # This actually performs requests
+  out <- multi_run(pool = pool)
+
+  cat(sum(out$success))
+  
+  Sys.sleep(2)
+}
+
+cleaned_df <- NA
 
 for (i in 1:length(parsed_url_geocode)) {
-  for (j in 1:length(parsed_url_geocode[[i]])) {
-    cleaned_df[z] <- jsonlite::fromJSON(parsed_url_geocode[[i]][j])
-    z = z + 1
-  }
+    cleaned_df[i] <- parsed_url_geocode[[i]][1]
 }
-
-final.df <- data.frame(NA)
-
-bad_calls <- which(cleaned_df=="You have exceeded your rate-limit for this API.")
-
-good_calls <- 1:5000
-
-good_calls <- good_calls[-bad_calls]
 
 final.df <- rep(NA,5000)
 
