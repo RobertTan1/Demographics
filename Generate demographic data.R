@@ -256,7 +256,7 @@ cb <- function(req){
 
 # Reverse geocode in chunks
 
-for (i in 1:10) { #ceiling(length(url.vector) / chunk_size)
+for (i in 1:ceiling(length(url.vector) / chunk_size)) {
 
   pool <- new_pool()
   
@@ -282,14 +282,18 @@ for (i in 1:length(parsed_url_geocode)) {
 
 final.df <- rep(NA,5000)
 
-for (i in good_calls) {
+for (i in 1:length(cleaned_df)) {
   final.df[i] <-
     cleaned_df[[i]]$address_components[[1]][cleaned_df[[1]]$address_components[[1]]$types ==
                                               "postal_code", ]$long_name
 }
 
-latlong.postal <- data.frame(latlong = latlong, postal_code <- final.df)
+latlong.postal <- data.frame(latlong = latlong, postal_code = gsub(" ", "", final.df))
 
 customers <- customers %>% bind_cols(latlong.postal)
 
 customers %<>% na.omit
+
+customers$postal_code %<>% as.character()
+
+customers %<>% filter(nchar(postal_code) == 6)

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Quotes!</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<p><center></p>
+
+<p># My Responsive Email <small>With a nice, centered title</small></p>
+
+<p>Everything markdown is converted automatically into a responsive email template powered by <a href="http://zurb.com/ink/" title="Ink is awesome!">Zurb’s Ink framework</a>.</p>
+
+<p></center></p>
+
+<hr/>
+
+<p>## Easy columns, no more tables</p>
+
+<p><row></p>
+
+<p>Since Markdown isn’t a layout tool, you cannot use it to generate columns. Instead, I introduced HTML-esque tags that allow you to create columns on the fly.</p>
+
+<p><column></p>
+
+<p>Using the <code>row</code> tag, you specify that the content inbetween will be a row. </p>
+
+<p><column></p>
+
+<p>Using the <code>column</code> tag between 2 <code>row</code> tags will automatically separate the content into 2 columns. There is a maximum of 4 columns on the same row.</p>
+
+<p></row></p>
+
+<hr/>
+
+<p>## Buttons for everybody</p>
+
+<p><row></p>
+
+<p>Buttons take the width of the column.</p>
+
+<p><button>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button></p>
+
+<p>Or rounded corners.</p>
+
+<p><button-rounded>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button-rounded></p>
+
+<p>Or round corners.</p>
+
+<p><button-round>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button-round></p>
+
+<p><column></p>
+
+<p>They can have square corners. </p>
+
+<p><button>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button></p>
+
+<p>Yup.</p>
+
+<p><button-rounded>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button-rounded></p>
+
+<p>Yup.</p>
+
+<p><button-round>
+  <a href="http://www.google.com" title="Link to Google">This is a link</a>
+</button-round></p>
+
+<p></row></p>
+
+<hr/>
+
+<p>## Images</p>
+
+<p>&lt;!&ndash; Yes, you can use some HTML and it won’t break. But it’s at your own risk :) &ndash;&gt;</p>
+
+<p><strong>#protip</strong> <span style="color:#999;"> For the first image, I will use a <code>row</code> tag with no column just to keep the padding between the 3 pictures consistent. </span></p>
+
+<p><row></p>
+
+<p><img src="http://cakedown.alexandredeschamps.ca/assets/img/p1.jpg" alt="A beautiful cat!" title="Cat!"/></p>
+
+<p></row></p>
+
+<p><row></p>
+
+<p><img src="http://cakedown.alexandredeschamps.ca/assets/img/p2.jpg" alt="A beautiful cat!" title="Cat!"/></p>
+
+<p><column></p>
+
+<p><img src="http://cakedown.alexandredeschamps.ca/assets/img/p3.jpg" alt="A beautiful cat!" title="Cat!"/></p>
+
+<p></row></p>
+
+<hr/>
+
+<p>## Lists</p>
+
+<p><row></p>
+
+<p>### Ordered list</p>
+
+<ol>
+<li>Item 1
+
+<ol>
+<li>Item 2</li>
+<li>Item 3</li>
+<li>Item 4</li>
+</ol></li>
+</ol>
+
+<p><column></p>
+
+<p>### Unordered list</p>
+
+<ul>
+<li>Something
+
+<ul>
+<li>Something else</li>
+</ul></li>
+<li>Another thing
+
+<ul>
+<li>Whatever</li>
+</ul></li>
+</ul>
+
+<p></row></p>
+
+<p><em>Note: Here’s a cool way to use italics!</em></p>
+
+<hr/>
+
+<p>## Paragraph modifiers</p>
+
+<p>You can also make <code>inline code</code> to add code into other things.</p>
+
+<h4>Quotes!</h4>
+
+<blockquote>
+<p>Wow, I can even quote people!</p>
+</blockquote>
+
+<hr/>
+
+<p><center>
+  ## That’s pretty much it!</p>
+
+<p>I hope it will be as useful to you as it is to me :)</p>
+
+<p>Don’t forget to generate your HTML using the icon in the upper right corner once you’re done. For questions, comments and feature requests: <a href="mailto:des.alexandre@gmail.com">send me an email!</a></p>
+
+<p><em>Cheers!</em>
+</center></p>
+
+</body>
+
+</html>
+

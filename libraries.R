@@ -7,6 +7,6 @@ library(leaflet)      # For mapping
 library(googleway)    # Google api interface
 library(wru)          # Predict ethnicity based on last name
 library(magrittr)     # %<>% pipe
-library(RCurl)        # Parallelize api calls
 library(gender)       # Guess gender
 library(jsonlite)     # Munge json
+library(curl)         # Parallelize api calls
