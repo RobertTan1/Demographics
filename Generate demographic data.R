@@ -300,6 +300,9 @@ for (i in 1:length(cleaned_df)) {
 # Assign postal codes to respective latlongs
 latlong.postal <- data.frame(latlong = latlong, postal_code = gsub(" ", "", final.df))
 
+# Separate latlongs
+latlong.postal %<>% separate(latlong, c("lat", "lon"), sep=",")
+
 # Join them to the customers dataset
 customers <- customers %>% bind_cols(latlong.postal)
 

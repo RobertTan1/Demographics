@@ -2,26 +2,26 @@ library(shiny)          # For shiny app
 library(shinydashboard) # For dashboard ui framework
 library(googleway)      # For mapping
 
-customers <- readRDS("customers.RDS")
-
 server <- shinyServer(function(input, output, session) {
-  customer.filter <- sample_n(customers, input$generate_n_data)
+  
+  customers <- readRDS("customers.RDS")
   
   output$map <- renderGoogle_map({
     google_map(
-      data=customer.filter,
-      search_box = F,
-      zoom_control = F,
-      street_view_control = F,
+      search_box = FALSE,
+      # zoom_control = FALSE,
+      street_view_control = FALSE,
       key = key,
       styles = dark.style
     )
   })
   
-  observeEvent(input$updateData,
-               googleway::google_map_update(mapid="map") %>% 
+  observeEvent(input$generate_n_data,
+               googleway::google_map_update(map_id="map") %>% 
                  clear_markers %>% 
                  googleway::add_markers(
+                   data=sample_n(customers, input$n_data),
+                   cluster = T,
                    lat="lat",
                    lon="lon"
                  )

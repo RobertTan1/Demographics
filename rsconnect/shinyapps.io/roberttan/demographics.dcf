@@ -1,0 +1,10 @@
+name: demographics
+title:
+username:
+account: roberttan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 353831
+bundleId: 1409311
+url: https://roberttan.shinyapps.io/demographics/
+when: 1528076858.17217

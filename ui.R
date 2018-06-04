@@ -28,30 +28,28 @@ sidebar <- dashboardSidebar(
     "Simulate",
     icon = icon("play", lib = "font-awesome")
   )
-  actionButton(
-    "updateData",
-    "Update data",
-    icon = icon("globe", lib = "font-awesome")
-  )
 )
 
-body <- dashboardBody(google_mapOutput("map"),
+body <- dashboardBody(
                       tabItems(
                         tabItem("mapview",
-                                google_mapOutput("map")),
+                          google_mapOutput("map")
+                        ),
                         tabItem("emailview",
-                                h2("Email campaign markdown here"))
+                          h2("Email campaign markdown here")
+                        )
                       ),
-                      
-                      tags$head(tags$style(
-                        HTML("
+                      tags$head(
+                        tags$style(
+                          HTML("
                              #generate_n_data {
                              float: right;
                              margin-right: 15px;
                              }
-                             
                              ")
-                        )))
+                          )
+                        )
+                      )
 
 ui <- dashboardPage(header, sidebar, body)
 
