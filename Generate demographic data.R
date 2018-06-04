@@ -19,6 +19,7 @@ customers <-
 
 # Prepare some data to simulate emails
 
+# Domain
 vector.domain <- 
   c(
     "outlook.com",
@@ -28,6 +29,7 @@ vector.domain <-
     "hotmail.com"
   )
 
+# Some arbitrary interests
 vector.interests <-
   c(
     "Reading",
@@ -74,6 +76,7 @@ vector.interests <-
     "Volunteer"
   )
 
+# separators people generally use in emails
 vector.separators <- c("_", "", "", "", ".", ".")
 
 # Set number of data points we want to generate
@@ -266,34 +269,48 @@ for (i in 1:ceiling(length(url.vector) / chunk_size)) {
   # all scheduled requests are performed concurrently
   sapply(uris, curl_fetch_multi, done=cb, pool=pool)
   
-  # This actually performs requests
+  # Perform requests
   out <- multi_run(pool = pool)
 
+  # Print out number of successes each round
   cat(sum(out$success))
   
+  # Delay calls to prevent exceeding speed limit
   Sys.sleep(2)
 }
 
+# Init df for processing data
 cleaned_df <- NA
 
+# Extract the necessary parts of each call's results
 for (i in 1:length(parsed_url_geocode)) {
     cleaned_df[i] <- parsed_url_geocode[[i]][1]
 }
 
+# Init final dataframe
 final.df <- rep(NA,5000)
 
+# Extract the postal code
 for (i in 1:length(cleaned_df)) {
   final.df[i] <-
     cleaned_df[[i]]$address_components[[1]][cleaned_df[[1]]$address_components[[1]]$types ==
                                               "postal_code", ]$long_name
 }
 
+# Assign postal codes to respective latlongs
 latlong.postal <- data.frame(latlong = latlong, postal_code = gsub(" ", "", final.df))
 
+# Join them to the customers dataset
 customers <- customers %>% bind_cols(latlong.postal)
 
+# Omit NAs
 customers %<>% na.omit
 
+# Convert postal codes to character
 customers$postal_code %<>% as.character()
 
+# Get entries that have valid postal codes
 customers %<>% filter(nchar(postal_code) == 6)
+
+# Export customers dataset for shiny use
+saveRDS(customers, "customers.csv")
