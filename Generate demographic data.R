@@ -313,4 +313,4 @@ customers$postal_code %<>% as.character()
 customers %<>% filter(nchar(postal_code) == 6)
 
 # Export customers dataset for shiny use
-saveRDS(customers, "customers.csv")
+saveRDS(customers, "customers.RDS")
